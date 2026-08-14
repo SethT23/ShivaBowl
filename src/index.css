@@ -13,26 +13,48 @@ body {
   margin: 0;
   font-family: var(--font-sans);
   color: #e5e7eb;
-  background-color: #0d0805;
+  background-color: #180f08;
   background-image:
+    /* warm hanging bar lights */
     radial-gradient(
-      ellipse 900px 500px at 20% -10%,
-      rgba(251, 191, 36, 0.08),
-      transparent 60%
+      ellipse 700px 420px at 18% -5%,
+      rgba(251, 191, 36, 0.16),
+      transparent 55%
     ),
     radial-gradient(
-      ellipse 900px 500px at 85% 0%,
-      rgba(34, 211, 238, 0.07),
+      ellipse 700px 420px at 82% 2%,
+      rgba(251, 146, 60, 0.13),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 900px 500px at 50% 30%,
+      rgba(34, 211, 238, 0.05),
       transparent 60%
+    ),
+    /* moody vignette so the edges feel dim like a bar corner */
+    radial-gradient(
+      ellipse 1400px 1000px at 50% 20%,
+      transparent 45%,
+      rgba(0, 0, 0, 0.55) 100%
+    ),
+    /* vertical wood plank grain */
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.22) 0px,
+      transparent 2px,
+      transparent 86px,
+      rgba(0, 0, 0, 0.22) 88px
     ),
     repeating-linear-gradient(
-      95deg,
-      #170d08 0px,
-      #170d08 2px,
-      #1c1109 3px,
-      #1c1109 40px
+      93deg,
+      rgba(255, 196, 130, 0.05) 0px,
+      transparent 1px,
+      transparent 5px,
+      rgba(0, 0, 0, 0.12) 6px,
+      transparent 7px,
+      transparent 34px
     ),
-    linear-gradient(180deg, #120a06 0%, #0a0603 55%, #050302 100%);
+    linear-gradient(180deg, #2a1810 0%, #1c1009 45%, #100a06 80%, #0a0604 100%);
   background-attachment: fixed;
   min-height: 100vh;
 }
@@ -115,22 +137,63 @@ body {
   }
 }
 
-/* Bar counter strip fixed to the bottom of the viewport */
+/* Bar counter strip fixed to the bottom of the viewport, glimpsed like the
+   edge of the actual bar the page is sitting on */
 .bartop {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 14px;
+  height: 22px;
   z-index: 0;
   pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(120, 72, 33, 0.9) 0%,
-    rgba(74, 42, 18, 0.95) 40%,
-    rgba(30, 16, 7, 1) 100%
-  );
-  box-shadow: 0 -1px 0 rgba(251, 191, 36, 0.25);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 214, 140, 0.55) 0%,
+      rgba(255, 214, 140, 0) 8%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.25) 0px,
+      transparent 2px,
+      transparent 70px,
+      rgba(0, 0, 0, 0.25) 72px
+    ),
+    linear-gradient(
+      180deg,
+      #8a5a2e 0%,
+      #603a1a 25%,
+      #3a220f 65%,
+      #201206 100%
+    );
+  box-shadow:
+    0 -2px 0 rgba(251, 191, 36, 0.35),
+    0 -10px 24px -6px rgba(0, 0, 0, 0.6) inset;
+}
+
+/* Wood bar-counter surface the beer taps sit on top of */
+.bar-counter {
+  position: relative;
+  border-radius: 10px 10px 4px 4px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 214, 140, 0.5) 0%,
+      rgba(255, 214, 140, 0) 8%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.25) 0px,
+      transparent 2px,
+      transparent 54px,
+      rgba(0, 0, 0, 0.25) 56px
+    ),
+    linear-gradient(180deg, #8a5a2e 0%, #603a1a 30%, #3a220f 75%, #24140a 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 226, 170, 0.6) inset,
+    0 10px 22px -8px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(0, 0, 0, 0.4);
 }
 
 @media (prefers-reduced-motion: reduce) {
