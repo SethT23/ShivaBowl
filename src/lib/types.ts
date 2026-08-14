@@ -91,6 +91,9 @@ export interface StandingRow {
   streak: string | null;
   waiverBudgetUsed: number | null;
   totalMoves: number | null;
+  winRank: number;
+  pointsRank: number;
+  luckScore: number;
 }
 
 export interface BracketTeamSlot {
@@ -124,6 +127,30 @@ export interface SeasonSummary {
   runnerUp: StandingRow | null;
   thirdPlace: StandingRow | null;
   regularSeasonChampion: StandingRow | null;
+  luckiestTeam: StandingRow | null;
+  unluckiestTeam: StandingRow | null;
   winnersBracket: BracketRound[];
   losersBracket: BracketRound[];
+}
+
+export interface CareerStanding {
+  ownerId: string;
+  ownerName: string;
+  teamName: string;
+  avatarUrl: string | null;
+  seasonsPlayed: number;
+  wins: number;
+  losses: number;
+  ties: number;
+  winPct: number;
+  pointsFor: number;
+  winPctRank: number;
+  pointsForRank: number;
+  luckScore: number;
+}
+
+export interface CareerLuckSummary {
+  standings: CareerStanding[];
+  luckiest: CareerStanding | null;
+  unluckiest: CareerStanding | null;
 }

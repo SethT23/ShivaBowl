@@ -1,5 +1,6 @@
 import type { SeasonSummary } from '../lib/types';
 import { BracketView } from './BracketView';
+import { LuckBadges } from './LuckBadges';
 import { Podium } from './Podium';
 import { StandingsTable } from './StandingsTable';
 import { TvFrame } from './TvFrame';
@@ -56,6 +57,11 @@ export function SeasonDetail({ season }: SeasonDetailProps) {
         runnerUp={season.runnerUp}
         thirdPlace={season.thirdPlace}
         regularSeasonChampion={season.regularSeasonChampion}
+      />
+
+      <LuckBadges
+        luckiest={season.luckiestTeam}
+        unluckiest={season.unluckiestTeam}
       />
 
       <BracketView title="Playoff Bracket" rounds={season.winnersBracket} />

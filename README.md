@@ -20,9 +20,15 @@ League ID: `1389392186746875904` (set in `src/App.tsx`).
     points for/against, potential (optimal-lineup) points, FAAB spent, and
     waiver moves — whichever of these Sleeper actually recorded for that
     season.
+  - "Luck of the Draw": that season's luckiest team (best win-rank vs.
+    points-for-rank gap — won more than their scoring would predict) and
+    unluckiest team (the reverse — scored well but didn't win as much).
 - **Previous Leagues** — every prior season's league instance (Sleeper links
   each season to the last via `previous_league_id`), listed newest-first as
   expandable rows with the same results detail inline.
+- **All-time luck banner** (shown above both tabs) — the luckiest and
+  unluckiest team across the entire league history, by comparing each
+  owner's career win % rank to their career total points-for rank.
 
 Both sections are derived from the same season data:
 
@@ -54,10 +60,14 @@ npm run lint      # oxlint
 
 - `src/lib/sleeperApi.ts` — thin Sleeper API client + history-chain walker.
 - `src/lib/deriveSeason.ts` — turns raw rosters/users/brackets into a
-  `SeasonSummary` (standings, seeds, champion/runner-up/third, regular
-  season champion, and bracket round data).
+  `SeasonSummary` (standings, seeds, win/points ranks, champion/runner-up/
+  third, regular season champion, per-season luck, and bracket round data).
+- `src/lib/careerStats.ts` — aggregates every owner's record and points
+  across all seasons into all-time win %, total points, and the resulting
+  league-wide luckiest/unluckiest team.
 - `src/hooks/useLeagueHistory.ts` — fetches and caches the full history for
   the configured league.
-- `src/components/` — `Tabs`, `SeasonSelect`, `Podium`, `BracketView`,
-  `StandingsTable`, `TvFrame`, `BeerTaps`, `SeasonDetail`, and the two tab
-  views (`LeagueHistoryTab`, `PreviousLeaguesTab`).
+- `src/components/` — `Tabs`, `SeasonSelect`, `Podium`, `LuckBadges`,
+  `CareerLuckBar`, `BracketView`, `StandingsTable`, `TvFrame`, `BeerTaps`,
+  `SeasonDetail`, and the two tab views (`LeagueHistoryTab`,
+  `PreviousLeaguesTab`).

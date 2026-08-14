@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { BeerTaps } from './components/BeerTaps';
+import { CareerLuckBar } from './components/CareerLuckBar';
 import { LeagueHistoryTab } from './components/LeagueHistoryTab';
 import { PreviousLeaguesTab } from './components/PreviousLeaguesTab';
 import { Tabs, type TabItem } from './components/Tabs';
 import { LoadingState, ErrorState } from './components/StatusStates';
 import { useLeagueHistory } from './hooks/useLeagueHistory';
+import { computeCareerLuck } from './lib/careerStats';
 
 const ROOT_LEAGUE_ID = '1389392186746875904';
 
@@ -18,6 +20,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState(TABS[0].id);
 
   const currentLeague = seasons[0];
+  const careerLuck = useMemo(() => computeCareerLuck(seasons), [seasons]);
 
   return (
     <div className="relative min-h-screen flex flex-col text-slate-100">
@@ -56,13 +59,19 @@ export default function App() {
         ) : error ? (
           <ErrorState message={error} />
         ) : (
-          <Tabs tabs={TABS} activeTab={activeTab} onChange={setActiveTab}>
-            {activeTab === 'history' ? (
-              <LeagueHistoryTab seasons={seasons} />
-            ) : (
-              <PreviousLeaguesTab seasons={seasons} />
-            )}
-          </Tabs>
+          <>
+            <CareerLuckBar
+              luckiest={careerLuck.luckiest}
+              unluckiest={careerLuck.unluckiest}
+            />
+            <Tabs tabs={TABS} activeTab={activeTab} onChange={setActiveTab}>
+              {activeTab === 'history' ? (
+                <LeagueHistoryTab seasons={seasons} />
+              ) : (
+                <PreviousLeaguesTab seasons={seasons} />
+              )}
+            </Tabs>
+          </>
         )}
       </main>
 

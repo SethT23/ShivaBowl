@@ -206,10 +206,14 @@ export function buildSeasonSummary(
       streak: roster.metadata?.streak ?? null,
       waiverBudgetUsed: settings.waiver_budget_used ?? null,
       totalMoves: settings.total_moves ?? null,
+      winRank: 0,
+      pointsRank: 0,
+      luckScore: 0,
     };
   });
 
-  // Regular-season seed: best record first (wins, then ties, then points for).
+  // Regular-season seed / win rank: best record first (wins, ties, then
+  // points for as a tiebreaker).
   const bySeed = [...rows].sort((a, b) => {
     if (b.wins !== a.wins) return b.wins - a.wins;
     if (b.ties !== a.ties) return b.ties - a.ties;
@@ -217,6 +221,19 @@ export function buildSeasonSummary(
   });
   bySeed.forEach((row, i) => {
     row.seed = i + 1;
+    row.winRank = i + 1;
+  });
+
+  // Points-for rank, independent of win/loss record.
+  const byPoints = [...rows].sort((a, b) => {
+    if (b.pointsFor !== a.pointsFor) return b.pointsFor - a.pointsFor;
+    return b.wins - a.wins;
+  });
+  byPoints.forEach((row, i) => {
+    row.pointsRank = i + 1;
+    // Positive => won more than their scoring output would predict (lucky).
+    // Negative => scored well but didn't win as much (unlucky).
+    row.luckScore = row.pointsRank - row.winRank;
   });
 
   // Fill in remaining final placements (teams not covered by either bracket)
@@ -244,6 +261,17 @@ export function buildSeasonSummary(
   const runnerUp = rows.find((r) => r.placement === 2) ?? null;
   const thirdPlace = rows.find((r) => r.placement === 3) ?? null;
   const regularSeasonChampion = rows.find((r) => r.seed === 1) ?? null;
+
+  // Only meaningful with more than one team, and only when records actually
+  // differ from what points-for alone would predict.
+  const luckiestTeam =
+    rows.length > 1
+      ? rows.reduce((best, r) => (r.luckScore > best.luckScore ? r : best))
+      : null;
+  const unluckiestTeam =
+    rows.length > 1
+      ? rows.reduce((worst, r) => (r.luckScore < worst.luckScore ? r : worst))
+      : null;
 
   const rosterMap = new Map(rows.map((r) => [r.team.rosterId, r]));
 
@@ -276,6 +304,8 @@ export function buildSeasonSummary(
     runnerUp,
     thirdPlace,
     regularSeasonChampion,
+    luckiestTeam,
+    unluckiestTeam,
     winnersBracket: winnersRounds,
     losersBracket: losersRounds,
   };
