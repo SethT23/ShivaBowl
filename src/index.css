@@ -2,15 +2,140 @@
 
 @theme {
   --font-sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-display: Georgia, 'Times New Roman', serif;
 }
 
 :root {
-  color-scheme: light dark;
+  color-scheme: dark;
 }
 
 body {
   margin: 0;
   font-family: var(--font-sans);
-  background-color: #0b1220;
   color: #e5e7eb;
+  background-color: #0d0805;
+  background-image:
+    radial-gradient(
+      ellipse 900px 500px at 20% -10%,
+      rgba(251, 191, 36, 0.08),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 900px 500px at 85% 0%,
+      rgba(34, 211, 238, 0.07),
+      transparent 60%
+    ),
+    repeating-linear-gradient(
+      95deg,
+      #170d08 0px,
+      #170d08 2px,
+      #1c1109 3px,
+      #1c1109 40px
+    ),
+    linear-gradient(180deg, #120a06 0%, #0a0603 55%, #050302 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Neon marquee title */
+.neon-title {
+  font-weight: 800;
+  color: #fff7e0;
+  text-shadow:
+    0 0 4px rgba(255, 244, 214, 0.9),
+    0 0 14px rgba(251, 191, 36, 0.8),
+    0 0 34px rgba(251, 146, 60, 0.55),
+    0 0 60px rgba(251, 146, 60, 0.35);
+  animation: neon-flicker 6s ease-in-out infinite;
+}
+
+@keyframes neon-flicker {
+  0%,
+  4%,
+  8%,
+  100% {
+    opacity: 1;
+  }
+  5% {
+    opacity: 0.85;
+  }
+  6% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0.8;
+  }
+  94% {
+    opacity: 1;
+  }
+}
+
+/* TV screen scanline / glass overlay */
+.tv-scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.035) 0px,
+    rgba(255, 255, 255, 0.035) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+.tv-scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(255, 255, 255, 0.06),
+    transparent 70%
+  );
+}
+
+.tv-live-dot {
+  animation: live-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.6);
+  }
+  50% {
+    opacity: 0.55;
+    box-shadow: 0 0 0 4px rgba(244, 63, 94, 0);
+  }
+}
+
+/* Bar counter strip fixed to the bottom of the viewport */
+.bartop {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 14px;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(120, 72, 33, 0.9) 0%,
+    rgba(74, 42, 18, 0.95) 40%,
+    rgba(30, 16, 7, 1) 100%
+  );
+  box-shadow: 0 -1px 0 rgba(251, 191, 36, 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon-title,
+  .tv-live-dot {
+    animation: none !important;
+  }
 }

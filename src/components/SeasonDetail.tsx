@@ -1,6 +1,8 @@
 import type { SeasonSummary } from '../lib/types';
+import { BracketView } from './BracketView';
 import { Podium } from './Podium';
 import { StandingsTable } from './StandingsTable';
+import { TvFrame } from './TvFrame';
 
 interface SeasonDetailProps {
   season: SeasonSummary;
@@ -10,7 +12,10 @@ export function SeasonDetail({ season }: SeasonDetailProps) {
   const isFinal = season.status === 'complete';
 
   return (
-    <div className="flex flex-col gap-4">
+    <TvFrame
+      label={`${season.season} Season — ${isFinal ? 'Final' : season.status.replace('_', ' ')}`}
+      live={!isFinal}
+    >
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-3">
           {season.avatarUrl ? (
@@ -50,9 +55,16 @@ export function SeasonDetail({ season }: SeasonDetailProps) {
         champion={season.champion}
         runnerUp={season.runnerUp}
         thirdPlace={season.thirdPlace}
+        regularSeasonChampion={season.regularSeasonChampion}
+      />
+
+      <BracketView title="Playoff Bracket" rounds={season.winnersBracket} />
+      <BracketView
+        title="Consolation Bracket"
+        rounds={season.losersBracket}
       />
 
       <StandingsTable standings={season.standings} />
-    </div>
+    </TvFrame>
   );
 }

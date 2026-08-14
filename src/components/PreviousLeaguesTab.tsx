@@ -30,7 +30,9 @@ export function PreviousLeaguesTab({ seasons }: PreviousLeaguesTabProps) {
           return (
             <div
               key={season.leagueId}
-              className="rounded-lg border border-slate-700/70 overflow-hidden"
+              className={`rounded-lg border overflow-hidden transition-colors ${
+                isOpen ? 'border-amber-400/30' : 'border-slate-700/70'
+              }`}
             >
               <button
                 type="button"

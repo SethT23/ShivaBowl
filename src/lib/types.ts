@@ -26,7 +26,11 @@ export interface SleeperRosterSettings {
   fpts_decimal?: number;
   fpts_against?: number;
   fpts_against_decimal?: number;
+  ppts?: number;
+  ppts_decimal?: number;
   waiver_position?: number;
+  waiver_budget_used?: number;
+  total_moves?: number;
   [key: string]: unknown;
 }
 
@@ -36,6 +40,11 @@ export interface SleeperRoster {
   co_owners?: string[] | null;
   league_id: string;
   settings: SleeperRosterSettings;
+  metadata?: {
+    streak?: string;
+    record?: string;
+    [key: string]: unknown;
+  } | null;
 }
 
 export interface SleeperUser {
@@ -75,8 +84,32 @@ export interface StandingRow {
   ties: number;
   pointsFor: number;
   pointsAgainst: number;
+  potentialPoints: number | null;
   placement: number | null;
   placementSource: 'bracket' | 'regular-season';
+  seed: number;
+  streak: string | null;
+  waiverBudgetUsed: number | null;
+  totalMoves: number | null;
+}
+
+export interface BracketTeamSlot {
+  row: StandingRow | null;
+  isWinner: boolean;
+}
+
+export interface BracketMatchup {
+  matchId: number;
+  round: number;
+  label: string | null;
+  team1: BracketTeamSlot | null;
+  team2: BracketTeamSlot | null;
+  isDecided: boolean;
+}
+
+export interface BracketRound {
+  round: number;
+  matchups: BracketMatchup[];
 }
 
 export interface SeasonSummary {
@@ -90,4 +123,7 @@ export interface SeasonSummary {
   champion: StandingRow | null;
   runnerUp: StandingRow | null;
   thirdPlace: StandingRow | null;
+  regularSeasonChampion: StandingRow | null;
+  winnersBracket: BracketRound[];
+  losersBracket: BracketRound[];
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { BeerTaps } from './components/BeerTaps';
 import { LeagueHistoryTab } from './components/LeagueHistoryTab';
 import { PreviousLeaguesTab } from './components/PreviousLeaguesTab';
 import { Tabs, type TabItem } from './components/Tabs';
@@ -19,31 +20,37 @@ export default function App() {
   const currentLeague = seasons[0];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      <header className="border-b border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950">
-        <div className="max-w-5xl mx-auto px-4 py-8 flex flex-col items-center text-center gap-2">
+    <div className="relative min-h-screen flex flex-col text-slate-100">
+      <header className="relative border-b border-amber-400/10 bg-black/30 backdrop-blur-sm">
+        <div className="max-w-5xl mx-auto px-4 pt-10 pb-6 flex flex-col items-center text-center gap-3">
           {currentLeague?.avatarUrl ? (
             <img
               src={currentLeague.avatarUrl}
               alt=""
-              className="w-16 h-16 rounded-full mb-1"
+              className="w-16 h-16 rounded-full ring-2 ring-amber-400/40"
             />
           ) : (
             <span className="text-4xl mb-1" aria-hidden="true">
               🏆
             </span>
           )}
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+          <h1 className="neon-title text-3xl sm:text-5xl tracking-tight">
             Shiva Bowl Hall of Fame
           </h1>
-          <p className="text-slate-400 text-sm sm:text-base">
-            Record book &amp; league history for The Shiva Bowl fantasy
-            football league
+          <p className="text-slate-400 text-sm sm:text-base max-w-lg">
+            Pull up a stool — every champion, choke job, and record from{' '}
+            <span className="text-amber-300/90 font-medium">
+              The Shiva Bowl
+            </span>{' '}
+            fantasy football league.
           </p>
+          <div className="mt-2">
+            <BeerTaps />
+          </div>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 py-8">
+      <main className="relative flex-1 max-w-5xl w-full mx-auto px-4 py-8">
         {loading ? (
           <LoadingState />
         ) : error ? (
@@ -59,9 +66,11 @@ export default function App() {
         )}
       </main>
 
-      <footer className="max-w-5xl mx-auto px-4 py-6 text-center text-xs text-slate-600">
+      <footer className="relative max-w-5xl mx-auto px-4 pb-10 pt-4 text-center text-xs text-slate-600">
         Data provided by the Sleeper API. League ID {ROOT_LEAGUE_ID}.
       </footer>
+
+      <div className="bartop" />
     </div>
   );
 }
